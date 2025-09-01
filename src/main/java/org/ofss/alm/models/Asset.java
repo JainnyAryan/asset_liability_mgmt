@@ -12,6 +12,17 @@ public class Asset {
     private LocalDate maturityDate;
     private BigDecimal interestRate;
 
+    public Asset(Long assetId, Long customerId, String type, String currencyCode,
+                 BigDecimal amount, LocalDate maturityDate, BigDecimal interestRate) {
+        this.assetId = assetId;
+        this.customerId = customerId;
+        this.type = type;
+        this.currencyCode = currencyCode;
+        this.amount = amount;
+        this.maturityDate = maturityDate;
+        this.interestRate = interestRate;
+    }
+
     // Getters & Setters
     public Long getAssetId() {
         return assetId;

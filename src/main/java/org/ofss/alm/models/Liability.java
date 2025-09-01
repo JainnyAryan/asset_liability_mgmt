@@ -12,6 +12,17 @@ public class Liability {
     private LocalDate maturityDate;
     private BigDecimal interestRate;
 
+    public Liability(Long liabilityId, Long customerId, String type, String currencyCode,
+                     BigDecimal amount, LocalDate maturityDate, BigDecimal interestRate) {
+        this.liabilityId = liabilityId;
+        this.customerId = customerId;
+        this.type = type;
+        this.currencyCode = currencyCode;
+        this.amount = amount;
+        this.maturityDate = maturityDate;
+        this.interestRate = interestRate;
+    }
+
     // Getters & Setters
     public Long getLiabilityId() {
         return liabilityId;

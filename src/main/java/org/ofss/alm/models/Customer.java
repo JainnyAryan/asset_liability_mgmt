@@ -6,6 +6,13 @@ public class Customer {
     private String type; // Individual, Corporate, etc.
     private String contactInfo;
 
+    public Customer(Long customerId, String name, String type, String contactInfo) {
+        this.customerId = customerId;
+        this.name = name;
+        this.type = type;
+        this.contactInfo = contactInfo;
+    }
+
     // Getters & Setters
     public Long getCustomerId() {
         return customerId;
