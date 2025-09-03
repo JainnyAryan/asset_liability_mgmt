@@ -1,6 +1,6 @@
 package org.ofss.alm.crm.engines.loans.riskEvaluation;
 
-import org.ofss.alm.crm.engines.LoanApplication;
+import org.ofss.alm.models.LoanApplication;
 import org.ofss.alm.models.Customer;
 
 public class PersonalLoanRiskEvaluation {

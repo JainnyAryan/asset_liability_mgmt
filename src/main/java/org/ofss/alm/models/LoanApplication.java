@@ -1,7 +1,7 @@
-package org.ofss.alm.crm.engines;
+package org.ofss.alm.models;
 
 
-import org.ofss.alm.models.Customer;
+import org.ofss.alm.enums.LoanType;
 
 public class LoanApplication {
     private Customer customer;
@@ -11,6 +11,15 @@ public class LoanApplication {
     private boolean goodRepaymentHistory;
     private int age;
     private String educationLevel;
+    private LoanType loanType;
+
+    public LoanType getLoanType() {
+        return loanType;
+    }
+
+    public void setLoanType(LoanType loanType) {
+        this.loanType = loanType;
+    }
 
     public double getRequestedAmount() {
         return requestedAmount;
