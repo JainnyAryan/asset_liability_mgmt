@@ -1,9 +1,10 @@
 package org.ofss.alm.crm.engines.loans.riskEvaluation;
 
+import org.ofss.alm.crm.engines.RiskEvaluationStrategy;
 import org.ofss.alm.models.LoanApplication;
 import org.ofss.alm.models.Customer;
 
-public class HomeLoanRiskEvaluation {
+public class HomeLoanRiskEvaluation implements RiskEvaluationStrategy {
 
 
     public double calculateRiskScore(LoanApplication app) {
