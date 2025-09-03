@@ -5,6 +5,15 @@ public class Customer {
     private String name;
     private String type; // Individual, Corporate, etc.
     private String contactInfo;
+    private double income;
+
+    public void setIncome(double income) {
+        this.income = income;
+    }
+
+    public double getIncome() {
+        return income;
+    }
 
     // Getters & Setters
     public Long getCustomerId() {
@@ -37,5 +46,9 @@ public class Customer {
 
     public void setContactInfo(String contactInfo) {
         this.contactInfo = contactInfo;
+    }
+
+    public int getCreditScore() {
+        return 0;
     }
 }
