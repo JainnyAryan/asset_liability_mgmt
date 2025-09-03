@@ -1,4 +1,4 @@
-package org.ofss.alm.engines;
+package org.ofss.alm.crm.engines;
 
 import org.ofss.alm.models.Customer;
 import org.ofss.alm.models.LoanConfig;
