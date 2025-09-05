@@ -1,40 +1,75 @@
 package org.ofss.alm.models;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Liability {
-    private Long liabilityId;
-    private Long customerId; // FK -> Customer
-    private String type; // Deposit, Borrowing, etc.
-    private String currencyCode; // FK -> Currency
-    private BigDecimal amount;
-    private LocalDate maturityDate;
-    private BigDecimal interestRate;
+    private int liabilityId;
+    private int customerId;
+    private String liabilityType;
+    private double principleAmount;
+    private LocalDate annualInterestPayBackDate;
+    private double interestRate;
+    private String currencyCode;
 
-    // Getters & Setters
-    public Long getLiabilityId() {
+    public Liability() {
+    }
+
+    public Liability(int liabilityId, int customerId, String liabilityType, double principleAmount, LocalDate annualInterestPayBackDate, double interestRate, String currencyCode) {
+        this.liabilityId = liabilityId;
+        this.customerId = customerId;
+        this.liabilityType = liabilityType;
+        this.principleAmount = principleAmount;
+        this.annualInterestPayBackDate = annualInterestPayBackDate;
+        this.interestRate = interestRate;
+        this.currencyCode = currencyCode;
+    }
+
+    public int getLiabilityId() {
         return liabilityId;
     }
 
-    public void setLiabilityId(Long liabilityId) {
+    public void setLiabilityId(int liabilityId) {
         this.liabilityId = liabilityId;
     }
 
-    public Long getCustomerId() {
+    public int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
 
-    public String getType() {
-        return type;
+    public String getLiabilityType() {
+        return liabilityType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setLiabilityType(String liabilityType) {
+        this.liabilityType = liabilityType;
+    }
+
+    public double getPrincipleAmount() {
+        return principleAmount;
+    }
+
+    public void setPrincipleAmount(double principleAmount) {
+        this.principleAmount = principleAmount;
+    }
+
+    public LocalDate getAnnualInterestPayBackDate() {
+        return annualInterestPayBackDate;
+    }
+
+    public void setAnnualInterestPayBackDate(LocalDate annualInterestPayBackDate) {
+        this.annualInterestPayBackDate = annualInterestPayBackDate;
+    }
+
+    public double getInterestRate() {
+        return interestRate;
+    }
+
+    public void setInterestRate(double interestRate) {
+        this.interestRate = interestRate;
     }
 
     public String getCurrencyCode() {
@@ -45,27 +80,16 @@ public class Liability {
         this.currencyCode = currencyCode;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public LocalDate getMaturityDate() {
-        return maturityDate;
-    }
-
-    public void setMaturityDate(LocalDate maturityDate) {
-        this.maturityDate = maturityDate;
-    }
-
-    public BigDecimal getInterestRate() {
-        return interestRate;
-    }
-
-    public void setInterestRate(BigDecimal interestRate) {
-        this.interestRate = interestRate;
+    @Override
+    public String toString() {
+        return "Liability{" +
+                "liabilityId=" + liabilityId +
+                ", customerId=" + customerId +
+                ", liabilityType='" + liabilityType + '\'' +
+                ", principleAmount=" + principleAmount +
+                ", annualInterestPayBackDate=" + annualInterestPayBackDate +
+                ", interestRate=" + interestRate +
+                ", currencyCode='" + currencyCode + '\'' +
+                '}';
     }
 }

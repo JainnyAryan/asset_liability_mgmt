@@ -1,19 +1,12 @@
 package org.ofss.alm.models;
 
+import java.time.LocalDate;
+
 public class Customer {
-    private Long customerId;
     private String name;
-    private String type; // Individual, Corporate, etc.
-    private String contactInfo;
-
-    // Getters & Setters
-    public Long getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
+    private int customerId;
+    private String type;
+    private LocalDate birthDate;
 
     public String getName() {
         return name;
@@ -21,6 +14,14 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setId(int customerId) {
+        this.customerId = customerId;
     }
 
     public String getType() {
@@ -31,11 +32,21 @@ public class Customer {
         this.type = type;
     }
 
-    public String getContactInfo() {
-        return contactInfo;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setContactInfo(String contactInfo) {
-        this.contactInfo = contactInfo;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    @Override
+    public String toString() {
+        return "customer{" +
+                "name='" + name + '\'' +
+                ", id=" + customerId +
+                ", type='" + type + '\'' +
+                ", birthDate=" + birthDate +
+                '}';
     }
 }
