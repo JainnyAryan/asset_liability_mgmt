@@ -10,10 +10,11 @@ public class Asset {
     private String currencyCode; // FK -> Currency
     private BigDecimal amount;
     private LocalDate maturityDate;
+    private LocalDate createdDate;
     private BigDecimal interestRate;
 
     public Asset(Long assetId, Long customerId, String type, String currencyCode,
-                 BigDecimal amount, LocalDate maturityDate, BigDecimal interestRate) {
+                 BigDecimal amount, LocalDate maturityDate, BigDecimal interestRate, LocalDate createdDate) {
         this.assetId = assetId;
         this.customerId = customerId;
         this.type = type;
@@ -21,6 +22,15 @@ public class Asset {
         this.amount = amount;
         this.maturityDate = maturityDate;
         this.interestRate = interestRate;
+        this.createdDate = createdDate;
+    }
+
+    public LocalDate getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDate createdDate) {
+        this.createdDate = createdDate;
     }
 
     // Getters & Setters

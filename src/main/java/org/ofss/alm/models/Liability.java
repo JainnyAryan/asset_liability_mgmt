@@ -11,9 +11,18 @@ public class Liability {
     private BigDecimal amount;
     private LocalDate maturityDate;
     private BigDecimal interestRate;
+    private LocalDate createdDate;
+
+    public LocalDate getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDate createdDate) {
+        this.createdDate = createdDate;
+    }
 
     public Liability(Long liabilityId, Long customerId, String type, String currencyCode,
-                     BigDecimal amount, LocalDate maturityDate, BigDecimal interestRate) {
+                     BigDecimal amount, LocalDate maturityDate, BigDecimal interestRate, LocalDate createdDate) {
         this.liabilityId = liabilityId;
         this.customerId = customerId;
         this.type = type;
@@ -21,6 +30,7 @@ public class Liability {
         this.amount = amount;
         this.maturityDate = maturityDate;
         this.interestRate = interestRate;
+        this.createdDate = createdDate;
     }
 
     // Getters & Setters

@@ -26,6 +26,13 @@ public class GapAnalysis {
             new Bucket("5Y+ (>=60M)", 60, Double.POSITIVE_INFINITY)
     );
 
+    private static BigDecimal calculateAccruedInterest(BigDecimal principal, BigDecimal rate, LocalDate startDate, LocalDate today) {
+        long daysElapsed = ChronoUnit.DAYS.between(startDate, today);
+        if (daysElapsed <= 0) return BigDecimal.ZERO;
+        BigDecimal timeFraction = BigDecimal.valueOf(daysElapsed).divide(BigDecimal.valueOf(365), 10, RoundingMode.HALF_UP);
+        return principal.multiply(rate).multiply(timeFraction).setScale(2, RoundingMode.HALF_UP);
+    }
+
     public static void main(String[] args) {
         LocalDate today = LocalDate.now();
 
@@ -37,33 +44,33 @@ public class GapAnalysis {
         List<Asset> assets = Arrays.asList(
                 // large 5-year loan
                 new Asset(1L, 1L, "Loan", "INR",
-                        new BigDecimal("1000000.00"), today.plusYears(5), new BigDecimal("0.05")),
+                        new BigDecimal("1000000.00"), today.plusYears(5), new BigDecimal("0.05"),today.minusMonths(6)),
                 // 6-month bond
                 new Asset(2L, 2L, "Bond", "INR",
-                        new BigDecimal("200000.00"), today.plusMonths(6), new BigDecimal("0.04")),
+                        new BigDecimal("200000.00"), today.plusMonths(6), new BigDecimal("0.04"),today.minusMonths(4)),
                 // 12-month loan
                 new Asset(3L, 1L, "Loan", "INR",
-                        new BigDecimal("500000.00"), today.plusMonths(12), new BigDecimal("0.06"))
+                        new BigDecimal("500000.00"), today.plusMonths(12), new BigDecimal("0.06"),today.minusMonths(8))
         );
 
         // SAMPLE LIABILITIES (deposits, borrowings)
         List<Liability> liabilities = Arrays.asList(
                 // 12-month deposit
                 new Liability(1L, 2L, "Deposit", "INR",
-                        new BigDecimal("800000.00"), today.plusMonths(12), new BigDecimal("0.03")),
+                        new BigDecimal("800000.00"), today.plusMonths(12), new BigDecimal("0.03"),today.minusMonths(12)),
                 // 1-month short-term deposit/savings
                 new Liability(2L, 1L, "Savings", "INR",
-                        new BigDecimal("200000.00"), today.plusMonths(1), new BigDecimal("0.01")),
+                        new BigDecimal("200000.00"), today.plusMonths(1), new BigDecimal("0.01"),today.minusMonths(3)),
                 // long-term borrowing 7 years
                 new Liability(3L, 2L, "Borrowing", "INR",
-                        new BigDecimal("300000.00"), today.plusYears(7), new BigDecimal("0.055"))
+                        new BigDecimal("300000.00"), today.plusYears(7), new BigDecimal("0.055"),today.minusMonths(18))
         );
 
         // run analysis
         GapAnalysis.GapResult gap = analyzeGap(assets, liabilities, today);
 
         // print nicely
-        printGapResult(gap);
+        printGapResult(gap, assets, liabilities, today);
     }
 
     static class GapResult {
@@ -85,56 +92,69 @@ public class GapAnalysis {
     // Core analysis method
     // ----------------------------
     public static GapResult analyzeGap(List<Asset> assets, List<Liability> liabilities, LocalDate today) {
-        // initialize maps with zero values for all buckets
         Map<String, BigDecimal> assetsByBucket = new LinkedHashMap<>();
         Map<String, BigDecimal> liabilitiesByBucket = new LinkedHashMap<>();
+
+        // Initialize all buckets to zero
         for (Bucket b : BUCKETS) {
             assetsByBucket.put(b.name, BigDecimal.ZERO);
             liabilitiesByBucket.put(b.name, BigDecimal.ZERO);
         }
 
-        // helper: assign an instrument to a bucket (by maturity)
+        // Accumulate accrued interest for each asset into the correct bucket
         for (Asset a : assets) {
             LocalDate mat = a.getMaturityDate();
-            if (mat == null) continue;
-            long days = ChronoUnit.DAYS.between(today, mat);
-            if (days < 0) {
-                // matured already - skip or handle separately
-                continue;
-            }
-            double months = days / 30.0;
+            if (mat == null || a.getCreatedDate() == null) continue;
+
+            long daysToMaturity = ChronoUnit.DAYS.between(today, mat);
+            if (daysToMaturity < 0) continue;
+
+            double months = daysToMaturity / 30.0;
             String bucketName = bucketForMonths(months);
-            assetsByBucket.put(bucketName, assetsByBucket.get(bucketName).add(a.getAmount()));
+
+            BigDecimal accruedInterest = calculateAccruedInterest(
+                    a.getAmount(), a.getInterestRate(), a.getCreatedDate(), today);
+
+            assetsByBucket.put(bucketName,
+                    assetsByBucket.get(bucketName).add((a.getAmount()).add(accruedInterest)));
         }
 
+        // Accumulate accrued interest for each liability into the correct bucket
         for (Liability l : liabilities) {
             LocalDate mat = l.getMaturityDate();
-            if (mat == null) continue;
-            long days = ChronoUnit.DAYS.between(today, mat);
-            if (days < 0) {
-                // matured already - skip
-                continue;
-            }
-            double months = days / 30.0;
+            if (mat == null || l.getCreatedDate() == null) continue;
+
+            long daysToMaturity = ChronoUnit.DAYS.between(today, mat);
+            if (daysToMaturity < 0) continue;
+
+            double months = daysToMaturity / 30.0;
             String bucketName = bucketForMonths(months);
-            liabilitiesByBucket.put(bucketName, liabilitiesByBucket.get(bucketName).add(l.getAmount()));
+
+            BigDecimal accruedInterest = calculateAccruedInterest(
+                    l.getAmount(), l.getInterestRate(), l.getCreatedDate(), today);
+
+            liabilitiesByBucket.put(bucketName,
+                    liabilitiesByBucket.get(bucketName).add((l.getAmount()).add(accruedInterest)));
         }
 
-        // compute gap and cumulative gap
+        // Compute gap and cumulative gap
         Map<String, BigDecimal> gapByBucket = new LinkedHashMap<>();
         Map<String, BigDecimal> cumulativeGap = new LinkedHashMap<>();
-        BigDecimal running = BigDecimal.ZERO;
+        BigDecimal runningTotal = BigDecimal.ZERO;
+
         for (Bucket b : BUCKETS) {
-            BigDecimal aVal = assetsByBucket.get(b.name);
-            BigDecimal lVal = liabilitiesByBucket.get(b.name);
-            BigDecimal gap = aVal.subtract(lVal);
+            BigDecimal assetVal = assetsByBucket.get(b.name);
+            BigDecimal liabilityVal = liabilitiesByBucket.get(b.name);
+            BigDecimal gap = assetVal.subtract(liabilityVal);
+
             gapByBucket.put(b.name, gap);
-            running = running.add(gap);
-            cumulativeGap.put(b.name, running);
+            runningTotal = runningTotal.add(gap);
+            cumulativeGap.put(b.name, runningTotal);
         }
 
         return new GapResult(assetsByBucket, liabilitiesByBucket, gapByBucket, cumulativeGap);
     }
+
 
     private static String bucketForMonths(double months) {
         for (Bucket b : BUCKETS) {
@@ -151,11 +171,9 @@ public class GapAnalysis {
     private static String fmt(BigDecimal v) {
         return (v == null) ? "0.00" : DF.format(v.setScale(2, RoundingMode.HALF_UP).doubleValue());
     }
-
-    private static void printGapResult(GapResult r) {
-        System.out.println("==== GAP ANALYSIS ====");
-        System.out.printf("%-20s %-15s %-15s %-15s %-15s%n", "BUCKET", "ASSETS", "LIABILITIES", "GAP(A-L)", "CUMULATIVE GAP");
-        System.out.println("-------------------------------------------------------------------------------------");
+    private static void printGapResult(GapResult r, List<Asset> assets, List<Liability> liabilities, LocalDate today) {
+        System.out.println("==== GAP ANALYSIS BASED ON ACCRUED INTEREST ====");
+        System.out.printf("%-20s %-20s %-20s %-20s %-20s%n", "BUCKET", "ASSETS (INT)", "LIABILITIES (INT)", "GAP(A-L)", "CUMULATIVE GAP");
         for (Bucket b : BUCKETS) {
             String name = b.name;
             BigDecimal a = r.assetsByBucket.get(name);
@@ -169,9 +187,23 @@ public class GapAnalysis {
                     fmt(gap),
                     fmt(cum));
         }
-        System.out.println("-------------------------------------------------------------------------------------");
-        System.out.println("Interpretation notes:");
-        System.out.println("- Negative GAP means liabilities exceed assets in that bucket -> short-term funding need.");
-        System.out.println("- Cumulative gap shows how exposure evolves as you move from short to long buckets.");
+
+        // Interest report
+        System.out.println("\n---- ACCRUED INTEREST REPORT ----");
+        System.out.printf("%-10s %-10s %-15s %-15s %-15s%n", "TYPE", "ID", "AMOUNT", "RATE", "ACCRUED INT");
+        for (Asset a : assets) {
+            BigDecimal interest = calculateAccruedInterest(a.getAmount(), a.getInterestRate(), a.getCreatedDate(), today);
+            System.out.printf("%-10s %-10d %-15s %-15s %-15s%n",
+                    "Asset", a.getAssetId(), fmt(a.getAmount()), fmt(a.getInterestRate().multiply(BigDecimal.valueOf(100))) + "%", fmt(interest));
+        }
+        for (Liability l : liabilities) {
+            BigDecimal interest = calculateAccruedInterest(l.getAmount(), l.getInterestRate(), l.getCreatedDate(), today);
+            System.out.printf("%-10s %-10d %-15s %-15s %-15s%n",
+                    "Liability", l.getLiabilityId(), fmt(l.getAmount()), fmt(l.getInterestRate().multiply(BigDecimal.valueOf(100))) + "%", fmt(interest));
+        }
+
+        System.out.println("\nNotes:");
+        System.out.println("- Interest = Principal × Rate × (Days Elapsed / 365)");
+        System.out.println("- Accrued Interest is calculated from createdDate to today.");
     }
 }
