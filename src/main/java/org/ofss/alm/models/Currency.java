@@ -10,5 +10,37 @@ public class Currency {
     private LocalDate effectiveDate;
 
     // Getters & Setters
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public LocalDate getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(LocalDate effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public BigDecimal getFxRateToBase() {
+        return fxRateToBase;
+    }
+
+    public void setFxRateToBase(BigDecimal fxRateToBase) {
+        this.fxRateToBase = fxRateToBase;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
     // ...
 }
