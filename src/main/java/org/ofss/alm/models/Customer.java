@@ -1,7 +1,9 @@
 package org.ofss.alm.models;
 
+import java.util.UUID;
+
 public class Customer {
-    private Long customerId;
+    private UUID id;
     private String name;
     private String type; // Individual, Corporate, etc.
     private String contactInfo;
@@ -15,8 +17,20 @@ public class Customer {
         this.age = age;
     }
 
-    public Customer(Long customerId, String name, String type, String contactInfo, int age) {
-        this.customerId = customerId;
+    public Customer(){
+        this.id = UUID.randomUUID();
+    }
+
+    public Customer(String name, String type, String contactInfo, int age) {
+        this();
+        this.name = name;
+        this.type = type;
+        this.contactInfo = contactInfo;
+        this.age = age;
+    }
+
+    public Customer(UUID customerId, String name, String type, String contactInfo, int age) {
+        this.id = customerId;
         this.name = name;
         this.type = type;
         this.contactInfo = contactInfo;
@@ -26,7 +40,7 @@ public class Customer {
     @Override
     public String toString() {
         return "Customer{" +
-                "customerId=" + customerId +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", contactInfo='" + contactInfo + '\'' +
@@ -35,13 +49,15 @@ public class Customer {
     }
 
     // Getters & Setters
-    public Long getCustomerId() {
-        return customerId;
+
+    public UUID getId() {
+        return id;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setId(UUID id) {
+        this.id = id;
     }
+
 
     public String getName() {
         return name;

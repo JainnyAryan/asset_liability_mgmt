@@ -1,15 +1,15 @@
-package org.ofss.alm.crm;
+package org.ofss.alm.crm.services;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RiskManagementSystem {
+public class RiskManagementService {
     private final double exposureLimit;
     private final double minAvgRiskScore;
     private final List<Double> approvedRiskScores = new ArrayList<>();
     private double totalExposure = 0;
 
-    public RiskManagementSystem(double exposureLimit, double minAvgRiskScore) {
+    public RiskManagementService(double exposureLimit, double minAvgRiskScore) {
         this.exposureLimit = exposureLimit;
         this.minAvgRiskScore = minAvgRiskScore;
     }

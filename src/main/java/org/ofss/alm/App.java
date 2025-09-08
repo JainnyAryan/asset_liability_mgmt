@@ -1,26 +1,23 @@
 package org.ofss.alm;
 
-import org.ofss.alm.crm.RiskManagementSystem;
-import org.ofss.alm.crm.engines.RiskEvaluationEngine;
+import org.ofss.alm.crm.processors.LoanProcessor;
+import org.ofss.alm.crm.services.RiskManagementService;
 import org.ofss.alm.enums.LoanType;
 import org.ofss.alm.models.Customer;
 import org.ofss.alm.models.LoanApplication;
 
-/**
- * Hello world!
- *
- */
+import java.util.UUID;
 
 public class App {
     public static void main(String[] args) {
 
         // Risk Management System
-        RiskManagementSystem bankRisk = new RiskManagementSystem(500_000, 65); // limit, min avg score
+        RiskManagementService bankRisk = new RiskManagementService(500_000, 65); // limit, min avg score
         LoanProcessor processor = new LoanProcessor(bankRisk);
 
         // Create Customers
-        Customer alice = new Customer(1001L, "Alice Johnson", "Individual", "alice.johnson@example.com", 750000);
-        Customer xyzCorp = new Customer(1002L, "XYZ Corp", "Corporate", "contact@xyzcorp.com", 5000000);
+        Customer alice = new Customer("Alice Johnson", "Individual", "alice.johnson@example.com", 750000);
+        Customer xyzCorp = new Customer( "XYZ Corp", "Corporate", "contact@xyzcorp.com", 5000000);
 
         // Create Loan Applications
         LoanApplication loanApp1 = new LoanApplication(

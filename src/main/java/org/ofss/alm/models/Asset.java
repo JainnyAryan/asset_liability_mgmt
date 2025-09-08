@@ -1,16 +1,19 @@
 package org.ofss.alm.models;
 
+import org.ofss.alm.enums.AssetType;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Asset {
     private Long assetId;
     private Long customerId; // FK -> Customer
-    private String type; // Loan, Investment, Bond, etc.
+    private AssetType type; // Loan, Bond, etc.
     private String currencyCode; // FK -> Currency
     private BigDecimal amount;
     private LocalDate maturityDate;
     private BigDecimal interestRate;
+    private Loan loan;
 
     // Getters & Setters
     public Long getAssetId() {
@@ -29,11 +32,11 @@ public class Asset {
         this.customerId = customerId;
     }
 
-    public String getType() {
+    public AssetType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(AssetType type) {
         this.type = type;
     }
 

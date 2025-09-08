@@ -3,18 +3,38 @@ package org.ofss.alm.models;
 
 import org.ofss.alm.enums.LoanType;
 
+import java.util.UUID;
+
 public class LoanApplication {
+    private UUID id;
     private Customer customer;
     private int creditScore;
     private double totalDebt;
     private int employmentYears;
     private boolean goodRepaymentHistory;
     private double income;
-
     private String educationLevel;
     private LoanType loanType;
 
+    public LoanApplication(){
+        this.id = UUID.randomUUID();
+    }
+
+    public LoanApplication(UUID id, Customer customer, int creditScore, double totalDebt, int employmentYears, boolean goodRepaymentHistory, double income, String educationLevel, LoanType loanType, double requestedAmount) {
+        this.id = id;
+        this.customer = customer;
+        this.creditScore = creditScore;
+        this.totalDebt = totalDebt;
+        this.employmentYears = employmentYears;
+        this.goodRepaymentHistory = goodRepaymentHistory;
+        this.income = income;
+        this.educationLevel = educationLevel;
+        this.loanType = loanType;
+        this.requestedAmount = requestedAmount;
+    }
+
     public LoanApplication(Customer customer, int creditScore, double totalDebt, int employmentYears, boolean goodRepaymentHistory, double income, String educationLevel, LoanType loanType, double requestedAmount) {
+        this();
         this.customer = customer;
         this.creditScore = creditScore;
         this.totalDebt = totalDebt;

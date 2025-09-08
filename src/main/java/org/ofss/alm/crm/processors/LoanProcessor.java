@@ -1,36 +1,41 @@
-package org.ofss.alm;
+package org.ofss.alm.crm.processors;
 
-import org.ofss.alm.crm.RiskManagementSystem;
-import org.ofss.alm.crm.engines.RiskEvaluationEngine;
-import org.ofss.alm.crm.engines.loan.decision.LoanDecisionEngine;
+import org.ofss.alm.crm.services.RiskManagementService;
+import org.ofss.alm.crm.engines.RiskScoreEngine;
+import org.ofss.alm.crm.engines.decision.LoanDecisionEngine;
 import org.ofss.alm.crm.services.DisbursementService;
 import org.ofss.alm.crm.services.MonitoringService;
-import org.ofss.alm.crm.tier.classifier.TierClassifier;
-import org.ofss.alm.enums.Tier;
+import org.ofss.alm.crm.engines.risk.tier.classifier.RiskTierClassifier;
+import org.ofss.alm.enums.RiskTier;
+import org.ofss.alm.models.LoanActivityRecord;
 import org.ofss.alm.models.LoanApplication;
 
 public class LoanProcessor {
-    private final RiskEvaluationEngine riskEngine = new RiskEvaluationEngine();
-    private final TierClassifier classifier = new TierClassifier();
+    private final RiskScoreEngine riskEngine = new RiskScoreEngine();
+    private final RiskTierClassifier classifier = new RiskTierClassifier();
     private final LoanDecisionEngine decisionEngine = new LoanDecisionEngine();
     private final DisbursementService disbursement = new DisbursementService();
     private final MonitoringService monitoring = new MonitoringService();
-    private final RiskManagementSystem riskManager;
+    private final RiskManagementService riskManager;
 
-    public LoanProcessor(RiskManagementSystem riskManager) {
+    public LoanProcessor(RiskManagementService riskManager) {
         this.riskManager = riskManager;
     }
 
     public void processLoan(LoanApplication app) {
+        LoanActivityRecord loanActivityRecord = new LoanActivityRecord();
+
         double score = riskEngine.calculateTotalScore(app);
-        Tier tier = classifier.classify(score);
-        boolean approved = decisionEngine.approve(tier);
+        RiskTier riskTier = classifier.classify(score);
+        boolean isLoanRisky = decisionEngine.isLoanRisky(riskTier);
 
         System.out.println("\n--- Loan Evaluation ---");
-        System.out.println("Score: " + score + ", Tier: " + tier + ", Approved: " + approved);
+        System.out.println("Score: " + score + ", Tier: " + riskTier + ", isLoanRisky: " + isLoanRisky);
         System.out.println("Bank Status: " + riskManager.getStatus());
 
-        if (!approved) {
+
+
+        if (isLoanRisky) {
             System.out.println("Loan rejected: Applicant risk too high.");
             return;
         }
