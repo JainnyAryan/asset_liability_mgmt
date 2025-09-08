@@ -9,9 +9,37 @@ public class LoanApplication {
     private double totalDebt;
     private int employmentYears;
     private boolean goodRepaymentHistory;
-    private int age;
+    private double income;
+
     private String educationLevel;
     private LoanType loanType;
+
+    public LoanApplication(Customer customer, int creditScore, double totalDebt, int employmentYears, boolean goodRepaymentHistory, double income, String educationLevel, LoanType loanType, double requestedAmount) {
+        this.customer = customer;
+        this.creditScore = creditScore;
+        this.totalDebt = totalDebt;
+        this.employmentYears = employmentYears;
+        this.goodRepaymentHistory = goodRepaymentHistory;
+        this.income = income;
+        this.educationLevel = educationLevel;
+        this.loanType = loanType;
+        this.requestedAmount = requestedAmount;
+    }
+
+    @Override
+    public String toString() {
+        return "LoanApplication{" +
+                "customer=" + customer.toString() +
+                ", creditScore=" + creditScore +
+                ", totalDebt=" + totalDebt +
+                ", employmentYears=" + employmentYears +
+                ", goodRepaymentHistory=" + goodRepaymentHistory +
+                ", income=" + income +
+                ", educationLevel='" + educationLevel + '\'' +
+                ", loanType=" + loanType +
+                ", requestedAmount=" + requestedAmount +
+                '}';
+    }
 
     public LoanType getLoanType() {
         return loanType;
@@ -31,13 +59,13 @@ public class LoanApplication {
 
     private double requestedAmount;// e.g., "HighSchool", "Bachelor", "Master", etc.
 
-    public LoanApplication(Customer customer, int creditScore, double totalDebt, int employmentYears, boolean goodRepaymentHistory, int age, String educationLevel) {
+    public LoanApplication(Customer customer, int creditScore, double totalDebt, int employmentYears, boolean goodRepaymentHistory, double income, String educationLevel) {
         this.customer = customer;
         this.creditScore = creditScore;
         this.totalDebt = totalDebt;
         this.employmentYears = employmentYears;
         this.goodRepaymentHistory = goodRepaymentHistory;
-        this.age = age;
+        this.income = income;
         this.educationLevel = educationLevel;
     }
 
@@ -81,12 +109,12 @@ public class LoanApplication {
         this.goodRepaymentHistory = goodRepaymentHistory;
     }
 
-    public int getAge() {
-        return age;
+    public double getIncome() {
+        return income;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setIncome(double income) {
+        this.income = income;
     }
 
     public String getEducationLevel() {

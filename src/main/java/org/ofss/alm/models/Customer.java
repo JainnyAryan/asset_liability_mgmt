@@ -5,14 +5,33 @@ public class Customer {
     private String name;
     private String type; // Individual, Corporate, etc.
     private String contactInfo;
-    private double income;
+    private int age;
 
-    public void setIncome(double income) {
-        this.income = income;
+    public int getAge() {
+        return age;
     }
 
-    public double getIncome() {
-        return income;
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Customer(Long customerId, String name, String type, String contactInfo, int age) {
+        this.customerId = customerId;
+        this.name = name;
+        this.type = type;
+        this.contactInfo = contactInfo;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", contactInfo='" + contactInfo + '\'' +
+                ", age=" + age +
+                '}';
     }
 
     // Getters & Setters
