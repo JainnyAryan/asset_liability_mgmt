@@ -1,5 +1,6 @@
 package org.ofss.alm.crm.processors;
 
+import org.ofss.alm.crm.providers.LoanActivityRecordsProvider;
 import org.ofss.alm.crm.services.RiskManagementService;
 import org.ofss.alm.crm.engines.RiskScoreEngine;
 import org.ofss.alm.crm.engines.decision.LoanDecisionEngine;
@@ -7,6 +8,7 @@ import org.ofss.alm.crm.services.DisbursementService;
 import org.ofss.alm.crm.services.MonitoringService;
 import org.ofss.alm.crm.engines.risk.tier.classifier.RiskTierClassifier;
 import org.ofss.alm.enums.RiskTier;
+import org.ofss.alm.models.Loan;
 import org.ofss.alm.models.LoanActivityRecord;
 import org.ofss.alm.models.LoanApplication;
 
@@ -33,17 +35,27 @@ public class LoanProcessor {
         System.out.println("Score: " + score + ", Tier: " + riskTier + ", isLoanRisky: " + isLoanRisky);
         System.out.println("Bank Status: " + riskManager.getStatus());
 
+        loanActivityRecord.setLoan(new Loan(app));
+        loanActivityRecord.setRiskScore(score);
+        loanActivityRecord.setRiskTier(riskTier);
+        loanActivityRecord.setLoanRisky(isLoanRisky);
 
 
         if (isLoanRisky) {
             System.out.println("Loan rejected: Applicant risk too high.");
+            LoanActivityRecordsProvider.addLoanActivityRecord(loanActivityRecord);
             return;
         }
 
         if (!riskManager.canApproveLoan(app.getRequestedAmount())) {
             System.out.println("Loan rejected: Bank risk policy does not allow more lending.");
+            LoanActivityRecordsProvider.addLoanActivityRecord(loanActivityRecord);
             return;
         }
+
+        loanActivityRecord.setApproved(true);
+        LoanActivityRecordsProvider.addLoanActivityRecord(loanActivityRecord);
+
 
         disbursement.disburse(app);
         monitoring.monitor(app);

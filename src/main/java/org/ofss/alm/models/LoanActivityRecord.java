@@ -6,10 +6,10 @@ import java.util.UUID;
 
 public class LoanActivityRecord {
     private UUID id;
-    private Customer customer;
     private Loan loan;
     private double riskScore;
     private RiskTier riskTier;
+    private boolean isLoanRisky;
     private boolean isApproved;
 
     public LoanActivityRecord() {
@@ -17,21 +17,21 @@ public class LoanActivityRecord {
         this.isApproved = false;
     }
 
-    public LoanActivityRecord(Customer customer, Loan loan, double riskScore, RiskTier riskTier, boolean isApproved) {
+    public LoanActivityRecord(Loan loan, double riskScore, RiskTier riskTier, boolean isLoanRisky, boolean isApproved) {
         this();
-        this.customer = customer;
         this.loan = loan;
         this.riskScore = riskScore;
         this.riskTier = riskTier;
+        this.isLoanRisky = isLoanRisky;
         this.isApproved = isApproved;
     }
 
-    public LoanActivityRecord(UUID id, Customer customer, Loan loan, double riskScore, RiskTier riskTier, boolean isApproved) {
+    public LoanActivityRecord(UUID id, Loan loan, double riskScore, RiskTier riskTier, boolean isLoanRisky, boolean isApproved) {
         this.id = id;
-        this.customer = customer;
         this.loan = loan;
         this.riskScore = riskScore;
         this.riskTier = riskTier;
+        this.isLoanRisky = isLoanRisky;
         this.isApproved = isApproved;
     }
 
@@ -41,16 +41,6 @@ public class LoanActivityRecord {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
     public Loan getLoan() {
@@ -75,6 +65,14 @@ public class LoanActivityRecord {
 
     public void setRiskTier(RiskTier riskTier) {
         this.riskTier = riskTier;
+    }
+
+    public boolean isLoanRisky() {
+        return isLoanRisky;
+    }
+
+    public void setLoanRisky(boolean loanRisky) {
+        isLoanRisky = loanRisky;
     }
 
     public boolean isApproved() {
