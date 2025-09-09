@@ -3,6 +3,7 @@ package org.ofss.alm.crm.utils;
 import org.ofss.alm.models.LoanActivityRecord;
 import org.ofss.alm.models.LoanApplication;
 import org.ofss.alm.crm.services.RiskManagementService;
+import org.ofss.alm.models.RiskActivityRecord;
 
 import java.util.List;
 
@@ -19,17 +20,30 @@ public class ReportPrinter {
         // Iterate through the list of loan applications and print their details
         for (LoanActivityRecord loanActivityRecord : loanActivityRecords) {
             System.out.printf("| %-15s | %-12s | %-10s | $%-14.2f | %-20s |\n",
-                    loanActivityRecord.getLoanApplication().getLoanType(), loanActivityRecord.getCustomer().getName(),
-                    (loanActivityRecord.isApproved() ? "Approved" : "Rejected"), loanActivityRecord.getLoanApplication().getRequestedAmount(),
+                    loanActivityRecord.getLoan().getLoanApplication().getLoanType(), loanActivityRecord.getLoan().getLoanApplication().getCustomer().getName(),
+                    (loanActivityRecord.isApproved() ? "Approved" : "Rejected"), loanActivityRecord.getLoan().getLoanApplication().getRequestedAmount(),
                     loanActivityRecord.getRiskScore());
         }
 
         System.out.println("----------------------------------------------");
+    }
 
-        // Print Bank Risk Analysis Summary
-        System.out.println("\n--- Bank Risk Analysis ---");
-        System.out.printf("Total Exposure: $%.2f\n", bankRisk.getTotalExposure());
-        System.out.printf("Avg Risk Score: %.2f\n", bankRisk.getAverageRiskScore());
-        System.out.println("Status: " + bankRisk.getStatus());
+    public static void printRiskActivityReport(List<RiskActivityRecord> riskRecords) {
+        System.out.println("\n--- Risk Monitoring Report ---");
+        System.out.println("-----------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-25s | %-15s | %-15s | %-10s | %-20s |\n",
+                "Asset", "Total Exposure", "Avg Risk Score", "Status", "Recorded At");
+        System.out.println("-----------------------------------------------------------------------------------------------------");
+
+        for (RiskActivityRecord record : riskRecords) {
+            System.out.printf("| %-25s | $%-14.2f | %-15.2f | %-10s | %-20s |\n",
+                    record.getAsset().getType(),
+                    record.getTotalExposure(),
+                    record.getAverageRiskScore(),
+                    record.getRiskStatus(),
+                    record.getCreatedAt().toString());
+        }
+
+        System.out.println("-----------------------------------------------------------------------------------------------------");
     }
 }

@@ -1,5 +1,7 @@
 package org.ofss.alm.crm.services;
 
+import org.ofss.alm.enums.RiskStatus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +33,11 @@ public class RiskManagementService {
         return approvedRiskScores.stream().mapToDouble(Double::doubleValue).average().orElse(100);
     }
 
-    public String getStatus() {
+    public RiskStatus getStatus() {
         if (totalExposure >= exposureLimit)
-            return "Exposure limit reached";
+            return RiskStatus.EXPOSURE_LIMIT_REACHED;
         if (getAverageRiskScore() < minAvgRiskScore)
-            return "Average risk score too low";
-        return "Safe to lend";
+            return RiskStatus.AVG_RISK_SCORE_TOO_LOW;
+        return RiskStatus.SAFE_TO_LEND;
     }
 }

@@ -5,16 +5,13 @@ import org.ofss.alm.models.LoanActivityRecord;
 import java.util.ArrayList;
 
 public class LoanActivityRecordsProvider {
-    private static ArrayList<LoanActivityRecord> loanActivityRecords;
-    public LoanActivityRecordsProvider() {
-        loanActivityRecords = new ArrayList<LoanActivityRecord>();
+    private static ArrayList<LoanActivityRecord> loanActivityRecords = new ArrayList<LoanActivityRecord>();;
+
+    public static void addLoanActivityRecord(LoanActivityRecord loanActivityRecord) {
+        loanActivityRecords.add(loanActivityRecord);
     }
 
     public static ArrayList<LoanActivityRecord> getLoanActivityRecords() {
         return loanActivityRecords;
-    }
-
-    public static void addLoanActivityRecord(LoanActivityRecord loanActivityRecord) {
-        loanActivityRecords.add(loanActivityRecord);
     }
 }

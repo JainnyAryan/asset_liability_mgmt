@@ -3,15 +3,18 @@ package org.ofss.alm.models;
 import org.ofss.alm.enums.AssetType;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
 
 public class Asset {
+
+    private static Duration payoutDurationOffset = Duration.ofDays(365);
     private Long assetId;
     private Long customerId; // FK -> Customer
     private AssetType type; // Loan, Bond, etc.
     private String currencyCode; // FK -> Currency
     private BigDecimal amount;
-    private LocalDate maturityDate;
+    private LocalDate payoutDate;
     private BigDecimal interestRate;
     private Loan loan;
 
@@ -56,12 +59,12 @@ public class Asset {
         this.amount = amount;
     }
 
-    public LocalDate getMaturityDate() {
-        return maturityDate;
+    public LocalDate getPayoutDate() {
+        return payoutDate;
     }
 
-    public void setMaturityDate(LocalDate maturityDate) {
-        this.maturityDate = maturityDate;
+    public void setPayoutDate(LocalDate payoutDate) {
+        this.payoutDate = payoutDate;
     }
 
     public BigDecimal getInterestRate() {

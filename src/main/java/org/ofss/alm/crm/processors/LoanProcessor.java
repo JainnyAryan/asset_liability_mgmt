@@ -1,6 +1,7 @@
 package org.ofss.alm.crm.processors;
 
 import org.ofss.alm.crm.providers.LoanActivityRecordsProvider;
+import org.ofss.alm.crm.providers.RiskActivityRecordsProvider;
 import org.ofss.alm.crm.services.RiskManagementService;
 import org.ofss.alm.crm.engines.RiskScoreEngine;
 import org.ofss.alm.crm.engines.decision.LoanDecisionEngine;
@@ -8,9 +9,7 @@ import org.ofss.alm.crm.services.DisbursementService;
 import org.ofss.alm.crm.services.MonitoringService;
 import org.ofss.alm.crm.engines.risk.tier.classifier.RiskTierClassifier;
 import org.ofss.alm.enums.RiskTier;
-import org.ofss.alm.models.Loan;
-import org.ofss.alm.models.LoanActivityRecord;
-import org.ofss.alm.models.LoanApplication;
+import org.ofss.alm.models.*;
 
 public class LoanProcessor {
     private final RiskScoreEngine riskEngine = new RiskScoreEngine();
@@ -55,6 +54,7 @@ public class LoanProcessor {
 
         loanActivityRecord.setApproved(true);
         LoanActivityRecordsProvider.addLoanActivityRecord(loanActivityRecord);
+        RiskActivityRecordsProvider.addRiskActivityRecord(new RiskActivityRecord());
 
 
         disbursement.disburse(app);

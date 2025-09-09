@@ -2,6 +2,7 @@ package org.ofss.alm.models;
 
 import org.ofss.alm.enums.RiskTier;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class LoanActivityRecord {
@@ -11,10 +12,12 @@ public class LoanActivityRecord {
     private RiskTier riskTier;
     private boolean isLoanRisky;
     private boolean isApproved;
+    private LocalDateTime createdAt;
 
     public LoanActivityRecord() {
         this.id = UUID.randomUUID();
         this.isApproved = false;
+        this.createdAt = LocalDateTime.now();
     }
 
     public LoanActivityRecord(Loan loan, double riskScore, RiskTier riskTier, boolean isLoanRisky, boolean isApproved) {
@@ -26,13 +29,14 @@ public class LoanActivityRecord {
         this.isApproved = isApproved;
     }
 
-    public LoanActivityRecord(UUID id, Loan loan, double riskScore, RiskTier riskTier, boolean isLoanRisky, boolean isApproved) {
+    public LoanActivityRecord(UUID id, Loan loan, double riskScore, RiskTier riskTier, boolean isLoanRisky, boolean isApproved,  LocalDateTime createdAt) {
         this.id = id;
         this.loan = loan;
         this.riskScore = riskScore;
         this.riskTier = riskTier;
         this.isLoanRisky = isLoanRisky;
         this.isApproved = isApproved;
+        this.createdAt = createdAt;
     }
 
     public UUID getId() {
@@ -81,5 +85,13 @@ public class LoanActivityRecord {
 
     public void setApproved(boolean approved) {
         isApproved = approved;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
