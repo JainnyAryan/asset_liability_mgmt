@@ -1,38 +1,72 @@
 package org.ofss.alm.models;
 
 import org.ofss.alm.enums.AssetType;
+import org.ofss.alm.enums.CurrencyCode;
 
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class Asset {
 
-    private static Duration payoutDurationOffset = Duration.ofDays(365);
-    private Long assetId;
-    private Long customerId; // FK -> Customer
+    public static Duration payoutDurationOffsetDays = Duration.ofDays(365);
+    private UUID id;
+    private Customer customer; // FK -> Customer
     private AssetType type; // Loan, Bond, etc.
-    private String currencyCode; // FK -> Currency
+    private CurrencyCode currencyCode; // FK -> Currency
     private BigDecimal amount;
     private LocalDate payoutDate;
     private BigDecimal interestRate;
     private Loan loan;
+    private LocalDateTime createdAt;
+
+
+
+    public Asset() {
+        this.id = UUID.randomUUID();
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public Asset(Customer customer, AssetType type, CurrencyCode currencyCode, BigDecimal amount, LocalDate payoutDate, BigDecimal interestRate, Loan loan, LocalDateTime createdAt) {
+        this.customer = customer;
+        this.type = type;
+        this.currencyCode = currencyCode;
+        this.amount = amount;
+        this.payoutDate = payoutDate;
+        this.interestRate = interestRate;
+        this.loan = loan;
+        this.createdAt = createdAt;
+    }
+
+    public Asset(UUID id, Customer customer, AssetType type, CurrencyCode currencyCode, BigDecimal amount, LocalDate payoutDate, BigDecimal interestRate, Loan loan, LocalDateTime createdAt) {
+        this.id = id;
+        this.customer = customer;
+        this.type = type;
+        this.currencyCode = currencyCode;
+        this.amount = amount;
+        this.payoutDate = payoutDate;
+        this.interestRate = interestRate;
+        this.loan = loan;
+        this.createdAt = createdAt;
+    }
 
     // Getters & Setters
-    public Long getAssetId() {
-        return assetId;
+    public UUID getId() {
+        return id;
     }
 
-    public void setAssetId(Long assetId) {
-        this.assetId = assetId;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public Customer getCustomerId() {
+        return customer;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public AssetType getType() {
@@ -43,11 +77,11 @@ public class Asset {
         this.type = type;
     }
 
-    public String getCurrencyCode() {
+    public CurrencyCode getCurrencyCode() {
         return currencyCode;
     }
 
-    public void setCurrencyCode(String currencyCode) {
+    public void setCurrencyCode(CurrencyCode currencyCode) {
         this.currencyCode = currencyCode;
     }
 
@@ -73,5 +107,33 @@ public class Asset {
 
     public void setInterestRate(BigDecimal interestRate) {
         this.interestRate = interestRate;
+    }
+
+    public static Duration getPayoutDurationOffsetDays() {
+        return payoutDurationOffsetDays;
+    }
+
+    public static void setPayoutDurationOffsetDays(Duration payoutDurationOffsetDays) {
+        Asset.payoutDurationOffsetDays = payoutDurationOffsetDays;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public Loan getLoan() {
+        return loan;
+    }
+
+    public void setLoan(Loan loan) {
+        this.loan = loan;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

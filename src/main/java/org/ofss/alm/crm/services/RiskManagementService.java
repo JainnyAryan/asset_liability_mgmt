@@ -16,8 +16,10 @@ public class RiskManagementService {
         this.minAvgRiskScore = minAvgRiskScore;
     }
 
+
+
     public boolean canApproveLoan(double requestedAmount) {
-        return (totalExposure + requestedAmount <= exposureLimit) &&
+        return (totalExposure <= exposureLimit) &&
                 (getAverageRiskScore() >= minAvgRiskScore);
     }
 

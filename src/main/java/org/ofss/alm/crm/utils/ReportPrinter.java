@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ReportPrinter {
 
-    public static void printLoanReport(RiskManagementService bankRisk, List<LoanActivityRecord> loanActivityRecords) {
+    public static void printLoanReport(List<LoanActivityRecord> loanActivityRecords) {
         // Print Bank Overview Header
         System.out.println("\n--- Bank Overview ---");
         System.out.println("----------------------------------------------");
@@ -29,15 +29,18 @@ public class ReportPrinter {
     }
 
     public static void printRiskActivityReport(List<RiskActivityRecord> riskRecords) {
+
         System.out.println("\n--- Risk Monitoring Report ---");
         System.out.println("-----------------------------------------------------------------------------------------------------");
-        System.out.printf("| %-25s | %-15s | %-15s | %-10s | %-20s |\n",
-                "Asset", "Total Exposure", "Avg Risk Score", "Status", "Recorded At");
+        System.out.printf("|  | %-15s | %-15s | %-10s | %-20s |\n",
+               "Total Exposure", "Avg Risk Score", "Status", "Recorded At");
         System.out.println("-----------------------------------------------------------------------------------------------------");
 
         for (RiskActivityRecord record : riskRecords) {
-            System.out.printf("| %-25s | $%-14.2f | %-15.2f | %-10s | %-20s |\n",
-                    record.getAsset().getType(),
+//            String assetType = (record.getAsset() != null) ? record.getAsset().getType().toString() : "ASSET_NOT_DISBURSED";
+
+            System.out.printf("|| $%-14.2f | %-15.2f | %-10s | %-20s |\n",
+//                    assetType,
                     record.getTotalExposure(),
                     record.getAverageRiskScore(),
                     record.getRiskStatus(),

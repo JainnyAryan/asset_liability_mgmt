@@ -1,5 +1,6 @@
 package org.ofss.alm.models;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Customer {
@@ -8,6 +9,7 @@ public class Customer {
     private String type; // Individual, Corporate, etc.
     private String contactInfo;
     private int age;
+    private LocalDateTime createdAt;
 
     public int getAge() {
         return age;
@@ -19,6 +21,7 @@ public class Customer {
 
     public Customer(){
         this.id = UUID.randomUUID();
+        this.createdAt = LocalDateTime.now();
     }
 
     public Customer(String name, String type, String contactInfo, int age) {
@@ -29,12 +32,13 @@ public class Customer {
         this.age = age;
     }
 
-    public Customer(UUID customerId, String name, String type, String contactInfo, int age) {
+    public Customer(UUID customerId, String name, String type, String contactInfo, int age, LocalDateTime createdAt) {
         this.id = customerId;
         this.name = name;
         this.type = type;
         this.contactInfo = contactInfo;
         this.age = age;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -45,6 +49,7 @@ public class Customer {
                 ", type='" + type + '\'' +
                 ", contactInfo='" + contactInfo + '\'' +
                 ", age=" + age +
+                ", createdAt=" + createdAt +
                 '}';
     }
 
@@ -85,5 +90,13 @@ public class Customer {
 
     public int getCreditScore() {
         return 0;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
