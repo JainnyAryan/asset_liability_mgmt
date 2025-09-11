@@ -7,7 +7,7 @@ public class Customer {
     private UUID id;
     private String name;
     private String type; // Individual, Corporate, etc.
-    private String contactInfo;
+    private String email;
     private int age;
     private LocalDateTime createdAt;
 
@@ -24,19 +24,19 @@ public class Customer {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Customer(String name, String type, String contactInfo, int age) {
+    public Customer(String name, String type, String email, int age) {
         this();
         this.name = name;
         this.type = type;
-        this.contactInfo = contactInfo;
+        this.email = email;
         this.age = age;
     }
 
-    public Customer(UUID customerId, String name, String type, String contactInfo, int age, LocalDateTime createdAt) {
+    public Customer(UUID customerId, String name, String type, String email, int age, LocalDateTime createdAt) {
         this.id = customerId;
         this.name = name;
         this.type = type;
-        this.contactInfo = contactInfo;
+        this.email = email;
         this.age = age;
         this.createdAt = createdAt;
     }
@@ -47,7 +47,7 @@ public class Customer {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
-                ", contactInfo='" + contactInfo + '\'' +
+                ", contactInfo='" + email + '\'' +
                 ", age=" + age +
                 ", createdAt=" + createdAt +
                 '}';
@@ -80,12 +80,12 @@ public class Customer {
         this.type = type;
     }
 
-    public String getContactInfo() {
-        return contactInfo;
+    public String getEmail() {
+        return email;
     }
 
-    public void setContactInfo(String contactInfo) {
-        this.contactInfo = contactInfo;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getCreditScore() {
