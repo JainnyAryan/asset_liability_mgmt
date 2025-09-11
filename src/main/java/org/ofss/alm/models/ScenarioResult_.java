@@ -2,7 +2,7 @@ package org.ofss.alm.models;
 
 import java.math.BigDecimal;
 
-public class ScenarioResult {
+public class ScenarioResult_ {
     private Long scenarioResultId;
     private Long scenarioId;  // FK -> Scenario
     private Long assetId;     // One of assetId or liabilityId must be set

@@ -2,7 +2,7 @@ package org.ofss.alm.models;
 
 import java.time.LocalDate;
 
-public class Scenario {
+public class Scenario_ {
     private Long scenarioId;
     private String name;
     private String description;

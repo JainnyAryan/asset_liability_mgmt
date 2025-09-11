@@ -3,7 +3,7 @@ package org.ofss.alm.models;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class Liability {
+public class Liability_ {
     private Long liabilityId;
     private Long customerId; // FK -> Customer
     private String type; // Deposit, Borrowing, etc.

@@ -3,7 +3,7 @@ package org.ofss.alm.models;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class RiskMetrics {
+public class RiskMetrics_ {
     private Long riskMetricsId;
     private Long assetId;     // One of assetId or liabilityId must be set
     private Long liabilityId;

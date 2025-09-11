@@ -3,7 +3,7 @@ package org.ofss.alm.models;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class LoanDecision {
+public class LoanDecision_ {
     private int id;
     private Customer customer;
     private int applicationId;

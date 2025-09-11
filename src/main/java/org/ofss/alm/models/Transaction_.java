@@ -3,7 +3,7 @@ package org.ofss.alm.models;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class Transaction {
+public class Transaction_ {
     private Long transactionId;
     private Long assetId;     // One of assetId or liabilityId must be set
     private Long liabilityId;

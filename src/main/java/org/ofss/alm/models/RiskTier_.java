@@ -2,7 +2,7 @@ package org.ofss.alm.models;
 
 import java.time.LocalDate;
 
-public class RiskTier {
+public class RiskTier_ {
     private int id;
     private Customer customer;
     private String tierLevel; // Tier1, Tier2, etc.
