@@ -12,6 +12,8 @@ import java.util.UUID;
 public class Asset {
 
     public static Duration payoutDurationOffsetDays = Duration.ofDays(365);
+
+
     private UUID id;
     private Customer customer; // FK -> Customer
     private AssetType type; // Loan, Bond, etc.

@@ -144,4 +144,8 @@ public class LoanApplication {
     public void setEducationLevel(String educationLevel) {
         this.educationLevel = educationLevel;
     }
+
+    public Object getId() {
+        return id;
+    }
 }
